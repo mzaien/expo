@@ -51,10 +51,10 @@ export async function instantiateMetroAsync(
     skipPlugins: true,
   });
 
-  logEventAsync('metro config', getMetroProperties(exp, metroConfig));
-
   const platformBundlers = getPlatformBundlers(exp);
   metroConfig = await withMetroMultiPlatformAsync(projectRoot, metroConfig, platformBundlers);
+
+  logEventAsync('metro config', getMetroProperties(projectRoot, exp, metroConfig));
 
   const {
     middleware,
