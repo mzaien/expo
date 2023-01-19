@@ -4,6 +4,8 @@ import http from 'http';
 import Metro from 'metro';
 import { Terminal } from 'metro-core';
 
+import { getMetroProperties } from '../../../utils/analytics/getMetroProperties';
+import { logEventAsync } from '../../../utils/analytics/rudderstackClient';
 import { createDevServerMiddleware } from '../middleware/createDevServerMiddleware';
 import { getPlatformBundlers } from '../platformBundlers';
 import { MetroTerminalReporter } from './MetroTerminalReporter';
@@ -48,6 +50,9 @@ export async function instantiateMetroAsync(
     skipSDKVersionRequirement: true,
     skipPlugins: true,
   });
+
+  logEventAsync('metro config', getMetroProperties(exp, metroConfig));
+
   const platformBundlers = getPlatformBundlers(exp);
   metroConfig = await withMetroMultiPlatformAsync(projectRoot, metroConfig, platformBundlers);
 
